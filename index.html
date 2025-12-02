@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QHSV - 不止快一点</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .header {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            z-index: 10;
+        }
+        
+        .main-title {
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #86868b;
+            letter-spacing: 0.5px;
+        }
+        
+        .download-btn-container {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 980px;
+            padding: 12px 28px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(0, 113, 227, 0.3);
+            letter-spacing: 0.5px;
+            min-width: 180px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mobile-btn {
+            background-color: #0071e3;
+        }
+        
+        .windows-btn {
+            background-color: #0078d4;
+            box-shadow: 0 4px 14px 0 rgba(0, 120, 212, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .mobile-btn:hover {
+            background-color: #0077ed;
+        }
+        
+        .windows-btn:hover {
+            background-color: #006cbd;
+        }
+        
+        .download-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.15);
+        }
+        
+        .platform-label {
+            color: #86868b;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+        
+        .bg-element {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(0, 113, 227, 0.05) 100%);
+            z-index: 1;
+        }
+        
+        .bg-element-1 {
+            top: 10%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+        }
+        
+        .bg-element-2 {
+            bottom: 20%;
+            right: 10%;
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(0, 120, 212, 0.1) 0%, rgba(0, 120, 212, 0.05) 100%);
+        }
+        
+        .bg-element-3 {
+            top: 60%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #86868b;
+            z-index: 5;
+        }
+        
+        .windows-info {
+            background-color: rgba(0, 120, 212, 0.05);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-top: 10px;
+            text-align: center;
+            max-width: 400px;
+            font-size: 0.9rem;
+            color: #006cbd;
+            border: 1px solid rgba(0, 120, 212, 0.1);
+        }
+        
+        .windows-info i {
+            margin-right: 8px;
+        }
+        
+        .file-size {
+            font-size: 0.8rem;
+            color: #86868b;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .download-btn {
+                padding: 10px 24px;
+                font-size: 1.1rem;
+                min-width: 160px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            
+            .windows-info {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .bg-element {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .bg-element-1 {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .bg-element-2 {
+                width: 180px;
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .download-btn {
+                padding: 8px 20px;
+                font-size: 1rem;
+                min-width: 140px;
+            }
+            
+            .platform-label {
+                font-size: 0.9rem;
+            }
+            
+            .windows-info {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 背景装饰元素 -->
+        <div class="bg-element bg-element-1"></div>
+        <div class="bg-element bg-element-2"></div>
+        <div class="bg-element bg-element-3"></div>
+        
+        <!-- 标题部分 - 位于页面从上往下2/5处 (40%) -->
+        <div class="header">
+            <h1 class="main-title">QHSV</h1>
+            <p class="subtitle">不止快一点</p>
+        </div>
+        
+        <!-- 下载按钮容器 - 位于页面从上往下4/5处 (80%) -->
+        <div class="download-btn-container">
+            <div class="platform-label" id="platform-label">选择您的平台下载</div>
+            <div class="btn-group">
+                <a href="https://example.com/downloads/qhsv-mobile-v2.1.0.apk" class="download-btn mobile-btn" id="mobile-btn" download="QHSV_Mobile_2.1.0.apk">
+                    <i class="fas fa-mobile-alt" style="margin-right: 8px;"></i>
+                    移动端下载
+                    <div class="file-size">APK • 42.5 MB</div>
+                </a>
+                <a href="https://example.com/downloads/qhsv-windows-v2.1.0.exe" class="download-btn windows-btn" id="windows-btn" download="QHSV_Windows_2.1.0.exe">
+                    <i class="fab fa-windows" style="margin-right: 8px;"></i>
+                    Windows下载
+                    <div class="file-size">EXE • 78.3 MB</div>
+                </a>
+            </div>
+            
+            <div class="windows-info">
+                <i class="fas fa-info-circle"></i>
+                支持 Windows 10 及以上版本，包含64位和32位安装包
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>© 2023 QHSV 版权所有</p>
+        </div>
+    </div>
+    
+    <script>
+        // 移动端下载按钮交互功能
+        document.getElementById('mobile-btn').addEventListener('click', function(e) {
+            // 获取原始链接和文本
+            const originalHref = this.href;
+            const originalContent = this.innerHTML;
+            const originalText = this.querySelector('i').nextSibling.textContent.trim();
+            
+            // 阻止默认行为，我们先显示提示
+            e.preventDefault();
+            
+            // 显示确认对话框
+            const userConfirmed = confirm('即将下载 QHSV 移动端安装包 (42.5 MB)\n\n点击"确定"开始下载。');
+            
+            if (!userConfirmed) {
+                return; // 用户取消下载
+            }
+            
+            // 显示下载中状态
+            this.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>下载中...';
+            this.style.pointerEvents = 'none';
+            
+            // 创建隐藏的iframe来触发下载
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = originalHref;
+            document.body.appendChild(iframe);
+            
+            // 模拟下载过程
+            setTimeout(() => {
+                // 恢复按钮状态
+                this.innerHTML = originalContent;
+                this.style.pointerEvents = 'auto';
+                
+                // 移除iframe
+                document.body.removeChild(iframe);
+                
+                // 显示下载成功消息
+                alert('QHSV移动端安装包下载完成！\n请在下载文件夹中找到安装文件。');
+            }, 1500);
+        });
+        
+        // Windows下载按钮交互功能
+        document.getElementById('windows-btn').addEventListener('click', function(e) {
+            // 获取原始链接和文本
+            const originalHref = this.href;
+            const originalContent = this.innerHTML;
+            const originalText = this.querySelector('i').nextSibling.textContent.trim();
+            
+            // 阻止默认行为，我们先显示提示
+            e.preventDefault();
+            
+            // 显示Windows版本信息
+            const userConfirmed = confirm('QHSV Windows版本要求：\n\n• Windows 10 或更高版本\n• 至少2GB可用存储空间\n• 需要管理员权限安装\n\n点击"确定"开始下载Windows安装包 (78.3 MB)。');
+            
+            if (!userConfirmed) {
+                return; // 用户取消
+            }
+            
+            // 显示下载中状态
+            this.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>准备下载...';
+            this.style.pointerEvents = 'none';
+            
+            // 模拟下载进度
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                if (progress <= 100) {
+                    this.innerHTML = `<i class="fas fa-download" style="margin-right: 8px;"></i>下载中 ${progress}%`;
+                }
+            }, 100);
+            
+            // 创建隐藏的iframe来触发下载
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = originalHref;
+            document.body.appendChild(iframe);
+            
+            // 模拟下载过程
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                this.innerHTML = '<i class="fas fa-check" style="margin-right: 8px;"></i>下载完成';
+                
+                // 移除iframe
+                document.body.removeChild(iframe);
+                
+                // 显示安装提示
+                setTimeout(() => {
+                    alert('QHSV Windows安装包已下载完成！\n请打开下载的安装文件开始安装。');
+                }, 500);
+                
+                // 5秒后恢复原状
+                setTimeout(() => {
+                    this.innerHTML = originalContent;
+                    this.style.pointerEvents = 'auto';
+                }, 5000);
+            }, 2000);
+        });
+        
+        // 添加简单的动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('.main-title');
+            const subtitle = document.querySelector('.subtitle');
+            const mobileBtn = document.getElementById('mobile-btn');
+            const windowsBtn = document.getElementById('windows-btn');
+            const platformLabel = document.querySelector('.platform-label');
+            const windowsInfo = document.querySelector('.windows-info');
+            
+            // 初始状态
+            title.style.opacity = '0';
+            title.style.transform = 'translateY(20px)';
+            subtitle.style.opacity = '0';
+            subtitle.style.transform = 'translateY(20px)';
+            platformLabel.style.opacity = '0';
+            platformLabel.style.transform = 'translateY(10px)';
+            mobileBtn.style.opacity = '0';
+            mobileBtn.style.transform = 'translateY(20px)';
+            windowsBtn.style.opacity = '0';
+            windowsBtn.style.transform = 'translateY(20px)';
+            windowsInfo.style.opacity = '0';
+            windowsInfo.style.transform = 'translateY(10px)';
+            
+            // 动画延迟
+            setTimeout(() => {
+                title.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                title.style.opacity = '1';
+                title.style.transform = 'translateY(0)';
+            }, 300);
+            
+            setTimeout(() => {
+                subtitle.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                subtitle.style.opacity = '1';
+                subtitle.style.transform = 'translateY(0)';
+            }, 600);
+            
+            setTimeout(() => {
+                platformLabel.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                platformLabel.style.opacity = '1';
+                platformLabel.style.transform = 'translateY(0)';
+            }, 900);
+            
+            setTimeout(() => {
+                mobileBtn.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                mobileBtn.style.opacity = '1';
+                mobileBtn.style.transform = 'translateY(0)';
+            }, 1000);
+            
+            setTimeout(() => {
+                windowsBtn.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                windowsBtn.style.opacity = '1';
+                windowsBtn.style.transform = 'translateY(0)';
+            }, 1200);
+            
+            setTimeout(() => {
+                windowsInfo.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                windowsInfo.style.opacity = '1';
+                windowsInfo.style.transform = 'translateY(0)';
+            }, 1400);
+        });
+        
+        // 检测用户设备并给出下载建议
+        document.addEventListener('DOMContentLoaded', function() {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const platformLabel = document.getElementById('platform-label');
+            
+            if (isMobile) {
+                platformLabel.innerHTML = '检测到您使用的是移动设备，推荐下载移动端版本';
+            } else {
+                platformLabel.innerHTML = '检测到您使用的是电脑设备，推荐下载Windows版本';
+            }
+        });
+        
+        // 添加下载统计功能（模拟）
+        function trackDownload(platform) {
+            console.log(`下载统计: ${platform} 版本下载被点击`);
+            // 这里可以添加真实的统计代码，如Google Analytics等
+            // ga('send', 'event', 'Downloads', 'click', platform);
+        }
+        
+        // 为按钮添加下载统计
+        document.getElementById('mobile-btn').addEventListener('click', function() {
+            trackDownload('Mobile');
+        });
+        
+        document.getElementById('windows-btn').addEventListener('click', function() {
+            trackDownload('Windows');
+        });
+    </script>
+</body>
+</html>
