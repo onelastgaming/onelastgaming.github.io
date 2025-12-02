@@ -95,6 +95,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
         }
         
         .mobile-btn {
@@ -278,23 +279,23 @@
         
         <!-- 下载按钮容器 - 位于页面从上往下4/5处 (80%) -->
         <div class="download-btn-container">
-            <div class="platform-label" id="platform-label">选择您的平台下载</div>
+            <div class="platform-label">选择您的平台下载</div>
             <div class="btn-group">
-                <a href="https://github.com/onelastgaming/onelastgaming.github.io/releases/download/v1.a1/Via_6.8.0.apk" class="download-btn mobile-btn" id="mobile-btn" download="QHSV_Mobile_2.1.0.apk">
+                <a href="https://github.com/onelastgaming/onelastgaming.github.io/releases/download/v1.a1/Via_6.8.0.apk" class="download-btn mobile-btn" download="QHSV_Mobile.apk">
                     <i class="fas fa-mobile-alt" style="margin-right: 8px;"></i>
                     移动端下载
-                    <div class="file-size">APK • 2.3mb</div>
+                    <div class="file-size">APK • 2.3 MB</div>
                 </a>
-                <a href="https://github.com/onelastgaming/onelastgaming.github.io/releases/download/v1.a1/pc.exe" class="download-btn windows-btn" id="windows-btn" download="QHSV_Windows_2.1.0.exe">
+                <a href="https://github.com/onelastgaming/onelastgaming.github.io/releases/download/v1.a1/pc.exe" class="download-btn windows-btn" download="QHSV_Windows.exe">
                     <i class="fab fa-windows" style="margin-right: 8px;"></i>
                     Windows下载
-                    <div class="file-size">EXE • 2.3mb</div>
+                    <div class="file-size">EXE • 2.3 MB</div>
                 </a>
             </div>
             
             <div class="windows-info">
                 <i class="fas fa-info-circle"></i>
-                支持 Windows 10 及以上版本，包含64位和32位安装包
+                支持 Windows 10 及以上版本
             </div>
         </div>
         
@@ -305,110 +306,12 @@
     </div>
     
     <script>
-        // 移动端下载按钮交互功能
-        document.getElementById('mobile-btn').addEventListener('click', function(e) {
-            // 获取原始链接和文本
-            const originalHref = this.href;
-            const originalContent = this.innerHTML;
-            const originalText = this.querySelector('i').nextSibling.textContent.trim();
-            
-            // 阻止默认行为，我们先显示提示
-            e.preventDefault();
-            
-            // 显示确认对话框
-            const userConfirmed = confirm('即将下载 QHSV 移动端安装包 (42.5 MB)\n\n点击"确定"开始下载。');
-            
-            if (!userConfirmed) {
-                return; // 用户取消下载
-            }
-            
-            // 显示下载中状态
-            this.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>下载中...';
-            this.style.pointerEvents = 'none';
-            
-            // 创建隐藏的iframe来触发下载
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = originalHref;
-            document.body.appendChild(iframe);
-            
-            // 模拟下载过程
-            setTimeout(() => {
-                // 恢复按钮状态
-                this.innerHTML = originalContent;
-                this.style.pointerEvents = 'auto';
-                
-                // 移除iframe
-                document.body.removeChild(iframe);
-                
-                // 显示下载成功消息
-                alert('QHSV移动端安装包下载完成！\n请在下载文件夹中找到安装文件。');
-            }, 1500);
-        });
-        
-        // Windows下载按钮交互功能
-        document.getElementById('windows-btn').addEventListener('click', function(e) {
-            // 获取原始链接和文本
-            const originalHref = this.href;
-            const originalContent = this.innerHTML;
-            const originalText = this.querySelector('i').nextSibling.textContent.trim();
-            
-            // 阻止默认行为，我们先显示提示
-            e.preventDefault();
-            
-            // 显示Windows版本信息
-            const userConfirmed = confirm('QHSV Windows版本要求：\n\n• Windows 10 或更高版本\n• 至少2GB可用存储空间\n• 需要管理员权限安装\n\n点击"确定"开始下载Windows安装包 (78.3 MB)。');
-            
-            if (!userConfirmed) {
-                return; // 用户取消
-            }
-            
-            // 显示下载中状态
-            this.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>准备下载...';
-            this.style.pointerEvents = 'none';
-            
-            // 模拟下载进度
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += 5;
-                if (progress <= 100) {
-                    this.innerHTML = `<i class="fas fa-download" style="margin-right: 8px;"></i>下载中 ${progress}%`;
-                }
-            }, 100);
-            
-            // 创建隐藏的iframe来触发下载
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = originalHref;
-            document.body.appendChild(iframe);
-            
-            // 模拟下载过程
-            setTimeout(() => {
-                clearInterval(progressInterval);
-                this.innerHTML = '<i class="fas fa-check" style="margin-right: 8px;"></i>下载完成';
-                
-                // 移除iframe
-                document.body.removeChild(iframe);
-                
-                // 显示安装提示
-                setTimeout(() => {
-                    alert('QHSV Windows安装包已下载完成！\n请打开下载的安装文件开始安装。');
-                }, 500);
-                
-                // 5秒后恢复原状
-                setTimeout(() => {
-                    this.innerHTML = originalContent;
-                    this.style.pointerEvents = 'auto';
-                }, 5000);
-            }, 2000);
-        });
-        
         // 添加简单的动画效果
         document.addEventListener('DOMContentLoaded', function() {
             const title = document.querySelector('.main-title');
             const subtitle = document.querySelector('.subtitle');
-            const mobileBtn = document.getElementById('mobile-btn');
-            const windowsBtn = document.getElementById('windows-btn');
+            const mobileBtn = document.querySelector('.mobile-btn');
+            const windowsBtn = document.querySelector('.windows-btn');
             const platformLabel = document.querySelector('.platform-label');
             const windowsInfo = document.querySelector('.windows-info');
             
@@ -462,34 +365,6 @@
                 windowsInfo.style.opacity = '1';
                 windowsInfo.style.transform = 'translateY(0)';
             }, 1400);
-        });
-        
-        // 检测用户设备并给出下载建议
-        document.addEventListener('DOMContentLoaded', function() {
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            const platformLabel = document.getElementById('platform-label');
-            
-            if (isMobile) {
-                platformLabel.innerHTML = '检测到您使用的是移动设备，推荐下载移动端版本';
-            } else {
-                platformLabel.innerHTML = '检测到您使用的是电脑设备，推荐下载Windows版本';
-            }
-        });
-        
-        // 添加下载统计功能（模拟）
-        function trackDownload(platform) {
-            console.log(`下载统计: ${platform} 版本下载被点击`);
-            // 这里可以添加真实的统计代码，如Google Analytics等
-            // ga('send', 'event', 'Downloads', 'click', platform);
-        }
-        
-        // 为按钮添加下载统计
-        document.getElementById('mobile-btn').addEventListener('click', function() {
-            trackDownload('Mobile');
-        });
-        
-        document.getElementById('windows-btn').addEventListener('click', function() {
-            trackDownload('Windows');
         });
     </script>
 </body>
